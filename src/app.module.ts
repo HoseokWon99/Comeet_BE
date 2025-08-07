@@ -12,6 +12,8 @@ import { AuthModule } from './auth';
 import { PostsModule } from './posts';
 import { AppController } from './app.controller';
 import { join } from "node:path";
+import { DynamooseModule } from "nestjs-dynamoose";
+import { dynamooseModuleOptionsFactory } from "./config/dynamoose";
 
 @Module({
   imports: [
@@ -22,6 +24,10 @@ import { join } from "node:path";
     TypeOrmModule.forRootAsync({
       useFactory: typeormOptionsFactory,
       dataSourceFactory: typeormDataSourceFactory,
+      inject: [ConfigService]
+    }),
+    DynamooseModule.forRootAsync({
+      useFactory: dynamooseModuleOptionsFactory,
       inject: [ConfigService]
     }),
     HttpModule.register({ global: true }),
